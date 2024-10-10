@@ -5,3 +5,4 @@
 2024-08-22T18:14:34  fix(output): simplify the walker
 2024-09-02T13:31:41  refactor(mcp): dedupe overlapping findings
 2024-09-30T08:48:48  chore: routine maintenance
+2024-10-10T15:05:55  build(report): improve the demo scenario
