@@ -12,3 +12,4 @@
 2024-12-27T19:13:23  docs: standing on the shoulders of giants (garak, sigma, trufflehog)
 2025-01-24T14:30:30  feat(ci): tune severity weights
 2025-02-04T09:47:37  docs: expand examples
+2025-02-14T16:04:44  perf(parser): add --fail-on threshold handling
