@@ -19,3 +19,4 @@
 2025-05-02T08:12:12  docs: clarify usage notes
 2025-05-30T15:29:19  build(scan): reduce false positives on edge cases
 2025-06-10T10:46:26  fix(cli): cover the multiline case
+2025-07-08T17:03:33  refactor(output): simplify the walker
