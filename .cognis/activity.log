@@ -24,3 +24,4 @@
 2025-07-29T19:37:47  test(docs): improve error messages with context
 2025-08-26T14:54:54  build(cache): document the config keys
 2025-09-06T09:11:01  test: strengthen coverage
+2025-10-04T16:28:08  refactor(deps): add a JSON schema for output
