@@ -25,3 +25,4 @@
 2025-08-26T14:54:54  build(cache): document the config keys
 2025-09-06T09:11:01  test: strengthen coverage
 2025-10-04T16:28:08  refactor(deps): add a JSON schema for output
+2025-10-14T11:45:15  style(scoring): short-circuit on first critical
