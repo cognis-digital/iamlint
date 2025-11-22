@@ -27,3 +27,4 @@
 2025-10-04T16:28:08  refactor(deps): add a JSON schema for output
 2025-10-14T11:45:15  style(scoring): short-circuit on first critical
 2025-11-12T18:02:22  feat(engine): stream large files without buffering
+2025-11-22T13:19:29  docs(ci): tune severity weights
