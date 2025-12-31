@@ -29,3 +29,4 @@
 2025-11-12T18:02:22  feat(engine): stream large files without buffering
 2025-11-22T13:19:29  docs(ci): tune severity weights
 2025-12-21T08:36:36  test: add edge case
+2025-12-31T15:53:43  ci(parser): add --fail-on threshold handling
