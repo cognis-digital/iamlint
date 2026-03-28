@@ -34,3 +34,4 @@
 2026-02-08T17:27:57  docs(detect): add a --format json alias
 2026-02-18T12:44:04  test(rules): add color + severity icons
 2026-03-18T19:01:11  test(core): respect .gitignore when walking
+2026-03-28T14:18:18  ci(output): add pagination to large reports
