@@ -35,3 +35,4 @@
 2026-02-18T12:44:04  test(rules): add color + severity icons
 2026-03-18T19:01:11  test(core): respect .gitignore when walking
 2026-03-28T14:18:18  ci(output): add pagination to large reports
+2026-04-25T09:35:25  chore: tune defaults
