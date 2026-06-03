@@ -37,3 +37,4 @@
 2026-03-28T14:18:18  ci(output): add pagination to large reports
 2026-04-25T09:35:25  chore: tune defaults
 2026-05-06T16:52:32  refactor(fixtures): add a --quiet mode
+2026-06-03T11:09:39  test(report): trim whitespace in parsed fields
