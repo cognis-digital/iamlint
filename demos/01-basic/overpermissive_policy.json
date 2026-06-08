@@ -1,0 +1,36 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "AccidentalAdmin",
+      "Effect": "Allow",
+      "Action": "*",
+      "Resource": "*"
+    },
+    {
+      "Sid": "DeployBucketReadWrite",
+      "Effect": "Allow",
+      "Action": "s3:*",
+      "Resource": "arn:aws:s3:::deploy-artifacts-prod/*"
+    },
+    {
+      "Sid": "PassAnyRole",
+      "Effect": "Allow",
+      "Action": ["iam:PassRole", "lambda:CreateFunction"],
+      "Resource": "*"
+    },
+    {
+      "Sid": "GrabSecrets",
+      "Effect": "Allow",
+      "Action": "secretsmanager:GetSecretValue",
+      "Resource": "*"
+    },
+    {
+      "Sid": "PublicBucketPolicy",
+      "Effect": "Allow",
+      "Principal": "*",
+      "Action": ["s3:GetObject"],
+      "Resource": "arn:aws:s3:::public-cdn-bucket/*"
+    }
+  ]
+}
