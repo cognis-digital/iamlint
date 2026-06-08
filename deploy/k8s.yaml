@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: { name: iamlint, labels: { app: iamlint } }
+spec:
+  replicas: 1
+  selector: { matchLabels: { app: iamlint } }
+  template:
+    metadata: { labels: { app: iamlint } }
+    spec:
+      containers:
+        - name: iamlint
+          image: ghcr.io/cognis-digital/iamlint:latest
+          ports: [{ containerPort: 8000 }]
+          resources:
+            requests: { cpu: "50m", memory: "64Mi" }
+            limits: { cpu: "500m", memory: "256Mi" }
+---
+apiVersion: v1
+kind: Service
+metadata: { name: iamlint }
+spec:
+  selector: { app: iamlint }
+  ports: [{ port: 80, targetPort: 8000 }]
