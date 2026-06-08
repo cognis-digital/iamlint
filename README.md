@@ -120,7 +120,17 @@ Pipes into your stack: **SARIF** for code-scanning, **JSON** for anything, an **
 <div align="right"><a href="#top">↑ back to top</a></div>
 
 <a name="install-anywhere"></a>
-## Install anywhere
+## Install — every way, every platform
+
+```bash
+pip install "git+https://github.com/cognis-digital/iamlint.git"    # pip (works today)
+pipx install "git+https://github.com/cognis-digital/iamlint.git"   # isolated CLI
+uv tool install "git+https://github.com/cognis-digital/iamlint.git" # uv
+pip install cognis-iamlint                                          # PyPI (when published)
+docker run --rm ghcr.io/cognis-digital/iamlint:latest --help        # Docker
+brew install cognis-digital/tap/iamlint                             # Homebrew tap
+curl -fsSL https://raw.githubusercontent.com/cognis-digital/iamlint/main/install.sh | sh
+```
 
 | Linux | macOS | Windows | Docker | Cloud |
 |---|---|---|---|---|
