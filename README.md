@@ -36,9 +36,10 @@ Lint cloud IAM policies (AWS/GCP/Azure JSON) for least-privilege violations — 
 <a name="features"></a>
 ## Features
 
-- ✅ Todo
-- ✅ Fixme
-- ✅ Xxx
+- ✅ Detect Provider
+- ✅ Lint Policy
+- ✅ Lint Document
+- ✅ Summarize
 - ✅ Runs on Linux/macOS/Windows · Docker · devcontainer
 - ✅ Ports in Python, JavaScript, Go, and Rust (`ports/`)
 
