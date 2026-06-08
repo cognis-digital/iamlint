@@ -1,0 +1,10 @@
+{
+  "name": "@cognis/iamlint",
+  "version": "0.2.0",
+  "description": "JavaScript port of iamlint (Cognis Neural Suite)",
+  "bin": {
+    "iamlint": "index.js"
+  },
+  "license": "LicenseRef-COCL-1.0",
+  "type": "module"
+}
