@@ -16,7 +16,7 @@
 </div>
 
 ```bash
-pip install cognis-iamlint
+pip install "git+https://github.com/cognis-digital/iamlint.git"
 iamlint scan .            # → prioritized findings in seconds
 ```
 
@@ -49,7 +49,7 @@ Lint cloud IAM policies (AWS/GCP/Azure JSON) for least-privilege violations — 
 ## Quick start
 
 ```bash
-pip install cognis-iamlint
+pip install "git+https://github.com/cognis-digital/iamlint.git"
 iamlint --version
 iamlint scan .                       # scan current project
 iamlint scan . --format json         # machine-readable
