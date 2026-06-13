@@ -20,6 +20,32 @@ pip install cognis-iamlint
 iamlint scan .            # → prioritized findings in seconds
 ```
 
+## Usage — step by step
+
+`iamlint` lints cloud IAM policies (AWS/GCP/Azure) for least-privilege
+violations. Single subcommand: `lint`.
+
+```bash
+# 1. Install
+pip install -e .
+
+# 2. Lint a policy file (provider autodetected; or force with --provider)
+iamlint lint policy.json
+iamlint lint policy.json --provider aws
+
+# 3. Read from stdin and emit JSON or a shareable HTML report
+cat policy.json | iamlint lint - --format json -o iam-report.json
+iamlint lint policy.json --format html -o iam-report.html
+
+# 4. The exit code is non-zero when any finding meets/exceeds --fail-on
+#    (default: low; severities critical/high/medium/low/info/any/never).
+iamlint lint policy.json --fail-on high
+
+# 5. CI gate — block over-permissive policies
+iamlint lint infra/policy.json --fail-on high || exit 1
+```
+
+
 ## Contents
 
 - [Why iamlint?](#why) · [Features](#features) · [Quick start](#quick-start) · [Example](#example) · [Architecture](#architecture) · [AI stack](#ai-stack) · [How it compares](#how-it-compares) · [Integrations](#integrations) · [Install anywhere](#install-anywhere) · [Related](#related) · [Contributing](#contributing)
