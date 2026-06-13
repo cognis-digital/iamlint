@@ -22,29 +22,43 @@ iamlint scan .            # → prioritized findings in seconds
 
 ## Usage — step by step
 
-`iamlint` lints cloud IAM policies (AWS/GCP/Azure) for least-privilege
-violations. Single subcommand: `lint`.
+1. **Install:**
 
-```bash
-# 1. Install
-pip install -e .
+   ```bash
+   pip install iamlint
+   ```
 
-# 2. Lint a policy file (provider autodetected; or force with --provider)
-iamlint lint policy.json
-iamlint lint policy.json --provider aws
+2. **Lint an IAM policy** for least-privilege violations — provider (aws / gcp / azure) is autodetected, or force it:
 
-# 3. Read from stdin and emit JSON or a shareable HTML report
-cat policy.json | iamlint lint - --format json -o iam-report.json
-iamlint lint policy.json --format html -o iam-report.html
+   ```bash
+   iamlint lint policy.json
+   iamlint lint policy.json --provider aws
+   ```
 
-# 4. The exit code is non-zero when any finding meets/exceeds --fail-on
-#    (default: low; severities critical/high/medium/low/info/any/never).
-iamlint lint policy.json --fail-on high
+   Use `-` to read the policy from stdin:
 
-# 5. CI gate — block over-permissive policies
-iamlint lint infra/policy.json --fail-on high || exit 1
-```
+   ```bash
+   cat policy.json | iamlint lint -
+   ```
 
+3. **Read the output** — table, JSON, or a standalone HTML report to a file:
+
+   ```bash
+   iamlint lint policy.json --format json
+   iamlint lint policy.json --format html -o iam-report.html
+   ```
+
+4. **Inspect findings programmatically:**
+
+   ```bash
+   iamlint lint policy.json --format json | jq '.findings[] | {rule_id, severity}'
+   ```
+
+5. **CI gate** — fail at/above a severity (`--fail-on`, also accepts `any` / `never`):
+
+   ```bash
+   iamlint lint policy.json --fail-on high
+   ```
 
 ## Contents
 
