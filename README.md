@@ -20,6 +20,12 @@ pip install "git+https://github.com/cognis-digital/iamlint.git"
 iamlint scan .            # → prioritized findings in seconds
 ```
 
+<!-- cognis:layman:start -->
+## What is this?
+
+Cloud platforms like AWS, Google Cloud, and Azure let you control who can access what using "IAM policies" — permission files written in JSON. When these files are too permissive (for example, giving a user access to everything instead of just what they need), it creates serious security risks. `iamlint` reads those permission files and automatically flags the dangerous parts, telling you exactly what to tighten and how to fix it. It works from the command line, fits into automated CI pipelines, and can also be used by AI agents — making it easy for developers and security teams to catch permission mistakes before they become breaches.
+<!-- cognis:layman:end -->
+
 ## Contents
 
 - [Why iamlint?](#why) · [Features](#features) · [Quick start](#quick-start) · [Example](#example) · [Architecture](#architecture) · [AI stack](#ai-stack) · [How it compares](#how-it-compares) · [Integrations](#integrations) · [Install anywhere](#install-anywhere) · [Related](#related) · [Contributing](#contributing)
@@ -46,6 +52,42 @@ Lint cloud IAM policies (AWS/GCP/Azure JSON) for least-privilege violations — 
 <div align="right"><a href="#top">↑ back to top</a></div>
 
 <a name="quick-start"></a>
+<!-- cognis:install:start -->
+## Install
+
+`iamlint` is source-available (not published to PyPI) — every method below installs
+straight from GitHub. Pick whichever you prefer; the one-line scripts auto-detect
+the best tool available on your machine.
+
+**One-liner (Linux / macOS):**
+```sh
+curl -fsSL https://raw.githubusercontent.com/cognis-digital/iamlint/HEAD/install.sh | sh
+```
+
+**One-liner (Windows PowerShell):**
+```powershell
+irm https://raw.githubusercontent.com/cognis-digital/iamlint/HEAD/install.ps1 | iex
+```
+
+**Or install manually — any one of:**
+```sh
+pipx install "git+https://github.com/cognis-digital/iamlint.git"     # isolated (recommended)
+uv tool install "git+https://github.com/cognis-digital/iamlint.git"  # uv
+pip install "git+https://github.com/cognis-digital/iamlint.git"      # pip
+```
+
+**From source:**
+```sh
+git clone https://github.com/cognis-digital/iamlint.git
+cd iamlint && pip install .
+```
+
+Then run:
+```sh
+iamlint --help
+```
+<!-- cognis:install:end -->
+
 ## Quick start
 
 ```bash
