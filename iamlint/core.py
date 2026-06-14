@@ -73,7 +73,7 @@ _DATA_EXFIL_ACTIONS = {
 def detect_provider(doc: Any) -> str:
     """Best-effort cloud provider detection from a parsed policy document."""
     if isinstance(doc, dict):
-        if "Statement" in doc or "Version" in doc and "Statement" in doc:
+        if "Statement" in doc or ("Version" in doc and "Statement" in doc):
             return "aws"
         if "bindings" in doc:
             return "gcp"
@@ -81,8 +81,6 @@ def detect_provider(doc: Any) -> str:
             return "azure"
         if "permissions" in doc or "actions" in doc:
             return "azure"
-    if isinstance(doc, dict) and "Statement" in doc:
-        return "aws"
     return "unknown"
 
 
@@ -350,6 +348,12 @@ def lint_policy(doc: Any, provider: str | None = None) -> list[Finding]:
 
 def lint_document(text: str, provider: str | None = None) -> list[Finding]:
     """Parse JSON text and lint it."""
+    if not isinstance(text, str) or not text.strip():
+        return [Finding(
+            "GEN003", Severity.HIGH, "Empty input",
+            "Policy document is empty or contains only whitespace.", "$",
+            "Provide a non-empty AWS/GCP/Azure IAM policy JSON document.",
+            provider or "unknown")]
     try:
         doc = json.loads(text)
     except json.JSONDecodeError as exc:

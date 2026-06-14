@@ -22,7 +22,9 @@ _SEV_COLORS = {
 def _read(path: str) -> str:
     if path == "-":
         return sys.stdin.read()
-    with open(path, "r", encoding="utf-8") as fh:
+    # utf-8-sig strips the UTF-8 BOM produced by some Windows tools; it
+    # falls back to a plain utf-8 read when no BOM is present.
+    with open(path, "r", encoding="utf-8-sig") as fh:
         return fh.read()
 
 
@@ -175,15 +177,20 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(f"error: cannot read {args.path}: {exc}", file=sys.stderr)
         return 2
 
-    findings = lint_document(text, args.provider)
-    counts = summarize(findings)
+    try:
+        findings = lint_document(text, args.provider)
+        counts = summarize(findings)
 
-    if args.format == "json":
-        report = _render_json(findings, counts, args.path)
-    elif args.format == "html":
-        report = _render_html(findings, counts, args.path)
-    else:
-        report = _render_table(findings, counts, args.path)
+        if args.format == "json":
+            report = _render_json(findings, counts, args.path)
+        elif args.format == "html":
+            report = _render_html(findings, counts, args.path)
+        else:
+            report = _render_table(findings, counts, args.path)
+    except Exception as exc:  # pragma: no cover
+        print(f"error: unexpected failure while linting {args.path}: {exc}",
+              file=sys.stderr)
+        return 2
 
     if args.output:
         try:

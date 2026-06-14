@@ -149,5 +149,94 @@ class TestCli(unittest.TestCase):
         self.assertEqual(cli.main(["lint", path, "--fail-on", "never"]), 0)
 
 
+class TestHardening(unittest.TestCase):
+    """Edge-case and error-path tests added during production hardening."""
+
+    def _write(self, text, encoding="utf-8"):
+        import tempfile
+        fd, path = tempfile.mkstemp(suffix=".json")
+        with os.fdopen(fd, "w", encoding=encoding) as fh:
+            fh.write(text)
+        self.addCleanup(lambda: os.remove(path))
+        return path
+
+    # -- CLI error paths --
+
+    def test_cli_missing_file_returns_exit_2(self):
+        """A missing input file must print to stderr and return exit code 2."""
+        rc = cli.main(["lint", "/nonexistent/path/does_not_exist_xyz.json"])
+        self.assertEqual(rc, 2)
+
+    def test_cli_no_subcommand_returns_exit_2(self):
+        """Invoking with no subcommand must return 2, not raise an exception."""
+        rc = cli.main([])
+        self.assertEqual(rc, 2)
+
+    def test_cli_malformed_json_returns_nonzero(self):
+        """A syntactically invalid JSON file must produce a clean HIGH finding."""
+        path = self._write("{not valid json!!!")
+        rc = cli.main(["lint", path])
+        self.assertNotEqual(rc, 0)
+
+    def test_cli_empty_file_returns_nonzero(self):
+        """An empty file must produce a clean HIGH finding, not a traceback."""
+        path = self._write("")
+        rc = cli.main(["lint", path])
+        self.assertNotEqual(rc, 0)
+
+    def test_cli_utf8_bom_file_parsed_correctly(self):
+        """A UTF-8 BOM file (common on Windows) must be parsed without error."""
+        policy = json.dumps({
+            "Statement": [{"Effect": "Allow", "Action": "*", "Resource": "*"}]
+        })
+        path = self._write(policy, encoding="utf-8-sig")
+        rc = cli.main(["lint", path])
+        # Should produce findings (not a GEN002 JSON error) and exit non-zero.
+        self.assertEqual(rc, 1)
+
+    def test_cli_json_format_on_empty_input_is_valid_json(self):
+        """Even on empty input, --format json must emit valid JSON."""
+        path = self._write("")
+        out_fd, out_path = __import__("tempfile").mkstemp(suffix=".json")
+        os.close(out_fd)
+        self.addCleanup(lambda: os.remove(out_path))
+        cli.main(["lint", path, "--format", "json", "-o", out_path])
+        with open(out_path, encoding="utf-8") as fh:
+            payload = json.load(fh)
+        self.assertIn("findings", payload)
+
+    # -- Core error/edge paths --
+
+    def test_lint_document_empty_string(self):
+        """Empty string input must return a GEN003 finding, not raise."""
+        from iamlint.core import lint_document
+        findings = lint_document("")
+        self.assertEqual(findings[0].rule_id, "GEN003")
+        self.assertEqual(findings[0].severity, "HIGH")
+
+    def test_lint_document_whitespace_only(self):
+        """Whitespace-only input must return GEN003."""
+        from iamlint.core import lint_document
+        findings = lint_document("   \n\t  ")
+        self.assertEqual(findings[0].rule_id, "GEN003")
+
+    def test_detect_provider_operator_precedence(self):
+        """detect_provider must return 'aws' for a doc with only Statement key."""
+        from iamlint.core import detect_provider
+        # Before the fix, "Statement" in doc was shadowed by the or/and precedence bug.
+        doc = {"Statement": []}
+        self.assertEqual(detect_provider(doc), "aws")
+        # A doc with only Version (no Statement) must NOT be detected as aws.
+        doc2 = {"Version": "2012-10-17"}
+        self.assertNotEqual(detect_provider(doc2), "aws")
+
+    def test_mcp_server_module_imports_cleanly(self):
+        """mcp_server.py must import without ImportError (broken scan/to_json refs)."""
+        import importlib
+        import iamlint.mcp_server  # noqa: F401
+        # Re-import to confirm it's not cached from a broken state.
+        importlib.reload(iamlint.mcp_server)
+
+
 if __name__ == "__main__":
     unittest.main()
