@@ -1,0 +1,13 @@
+$ iamlint-emit --help
+
+usage: iamlint [-h] [--version] {lint} ...
+
+Lint cloud IAM policies for least-privilege violations.
+
+positional arguments:
+  {lint}
+    lint      Lint an IAM policy file (or - for stdin).
+
+options:
+  -h, --help  show this help message and exit
+  --version   show program's version number and exit

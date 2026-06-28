@@ -1,0 +1,3 @@
+$ iamlint-emit --version
+
+iamlint 1.0.0

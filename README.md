@@ -20,6 +20,60 @@ pip install cognis-iamlint
 iamlint scan .            # → prioritized findings in seconds
 ```
 
+
+<!-- cognis:example:start -->
+## 🔎 Example output
+
+Real, reproducible output from the tool — runs offline:
+
+```console
+$ iamlint-emit --version
+iamlint 1.0.0
+```
+
+```console
+$ iamlint-emit --help
+usage: iamlint [-h] [--version] {lint} ...
+
+Lint cloud IAM policies for least-privilege violations.
+
+positional arguments:
+  {lint}
+    lint      Lint an IAM policy file (or - for stdin).
+
+options:
+  -h, --help  show this help message and exit
+  --version   show program's version number and exit
+```
+
+> Blocks above are real `iamlint` output — reproduce them from a clone.
+
+**Sample result format** _(illustrative values — run on your own data for real findings):_
+
+```
+{
+"finding": {
+"id": "12345",
+"title": "Suspicious Network Traffic",
+"description": "Network traffic from 192.168.1.100 to 8.8.8.8 detected",
+"severity": "medium",
+"created_at": "2023-02-15T14:30:00Z"
+},
+"indicators": [
+{
+"type": "ip",
+"value": "192.168.1.100"
+},
+{
+"type": "domain",
+"value": "example.com"
+}
+]
+}
+```
+
+<!-- cognis:example:end -->
+
 ## Usage — step by step
 
 1. **Install:**
